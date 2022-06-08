@@ -1,0 +1,32 @@
+version: "1"
+services:
+  backend:
+    restart: always
+    build: ./heron-api
+    ports:
+      - "6015:6015"
+    depends_on:
+      - db
+  db:
+    image: mongo
+    command: mongod --port 27017
+    volumes:
+      - mongodata:/data/heron
+  interface:
+    restart: always
+    container_name: heron-interface
+    build: ./heron-interface
+    ports:
+      - "3000:3000"
+  nginx-react:
+    container_name: ngixreactapp
+    build: .
+    ports:
+      - 80:80
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - backend
+      - interface
+volumes:
+  mongodata:
