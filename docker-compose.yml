@@ -15,12 +15,12 @@ services:
     command: mongod --port 27018
     volumes:
       - mongodata:/data/heron
-  # interface:
-  #   restart: always
-  #   container_name: heron-interface
-  #   build: ./heron-interface
-  #   ports:
-  #     - "3000:3000"
+  interface:
+    restart: always
+    container_name: heron-interface
+    build: ./heron-interface
+    ports:
+      - "4025:4025"
   # nginx-react:
   #   container_name: ngixreactapp
   #   build: .
