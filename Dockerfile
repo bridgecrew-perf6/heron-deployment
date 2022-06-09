@@ -8,6 +8,12 @@ RUN yarn
 
 COPY ./heron-admin .
 
+ARG REACT_APP_BASE_URL
+
+RUN echo $REACT_APP_BASE_URL
+
+ENV REACT_APP_BASE_URL $REACT_APP_BASE_URL
+
 RUN yarn build
 
 COPY ./heron.admin.conf .

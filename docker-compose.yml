@@ -18,20 +18,27 @@ services:
   interface:
     restart: always
     container_name: heron-interface
-    build: ./heron-interface
+    build:
+      context: ./heron-interface
+      args:
+        VITE_REACT_APP_BASE_URL: http://api-heronbooking.tk
     ports:
       - "4025:4025"
     environment:
       - PORT=4025
-  # nginx-react:
-  #   container_name: ngixreactapp
-  #   build: .
-  #   ports:
-  #     - 80:80
-  #   environment:
-  #     NODE_ENV: production
-  #   depends_on:
-  #     - backend
-  #     - interface
+  nginx-react:
+    container_name: ngixreactapp
+    build: 
+     context: .
+     args:
+      REACT_APP_BASE_URL: http://api-heronbooking.tk
+    ports:
+      - 80:80
+    environment:
+      NODE_ENV: production
+      
+    depends_on:
+      - backend
+      - interface
 volumes:
   mongodata:
