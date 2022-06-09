@@ -21,6 +21,8 @@ services:
     build: ./heron-interface
     ports:
       - "4025:4025"
+    environment:
+      - PORT=4025
   # nginx-react:
   #   container_name: ngixreactapp
   #   build: .
