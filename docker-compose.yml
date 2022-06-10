@@ -8,6 +8,8 @@ services:
     environment:
       - PORT=4015
       - MONGODB_URL=mongodb://db:27018/heron
+      - MOMO_IPN_URL=http://api-heronbooking.tk/api/payment/ipn
+      - MOMO_REDIRECT_URL=http://heronbooking.tk/payment/ipn
     depends_on:
       - db
   db:
