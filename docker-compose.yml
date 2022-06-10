@@ -14,6 +14,8 @@ services:
       - EMAIL_SMTP_PASSWORD=rwluxppwcrsuxlfy
     depends_on:
       - db
+    volumes:
+      - uploads:/app/heron-api/public/uploads
   db:
     image: mongo
     command: mongod --port 27018
@@ -48,3 +50,4 @@ services:
       - interface
 volumes:
   mongodata:
+  uploads:
