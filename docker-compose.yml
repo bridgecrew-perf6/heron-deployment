@@ -10,6 +10,8 @@ services:
       - MONGODB_URL=mongodb://db:27018/heron
       - MOMO_IPN_URL=http://api-heronbooking.tk/api/payment/ipn
       - MOMO_REDIRECT_URL=http://heronbooking.tk/payment/ipn
+      - EMAIL_SMTP_USERNAME=caothien029@gmail.com
+      - EMAIL_SMTP_PASSWORD=rwluxppwcrsuxlfy
     depends_on:
       - db
   db:
