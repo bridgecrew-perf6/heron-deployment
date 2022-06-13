@@ -1,20 +1,22 @@
 version: "1"
 services:
-  api.bookingheron.com:
-    container_name: api.bookingheron.com
+  api-cleverbooking.prod:
+    container_name: api-cleverbooking.prod
     restart: always
     build: ./heron-api
     ports:
       - "4015:4015"
     environment:
       - PORT=4015
-      - MONGODB_URL=mongodb://db:27018/heron
-      - MOMO_IPN_URL=http://api-heronbooking.tk/api/payment/ipn
-      - MOMO_REDIRECT_URL=http://heronbooking.tk/payment/ipn
+      - MONGODB_URL=mongodb://db:27018/heron-prod
+      - MOMO_IPN_URL=http://api-cleverbooking.tk/api/payment/ipn
+      - MOMO_REDIRECT_URL=http://cleverbooking.tk/payment/ipn
       - EMAIL_SMTP_USERNAME=caothien029@gmail.com
       - EMAIL_SMTP_PASSWORD=rwluxppwcrsuxlfy
     depends_on:
       - db
+    volumes:
+      - uploads:/app/heron-api/public/uploads
   db:
     image: mongo
     container_name: mongodb
@@ -23,33 +25,39 @@ services:
       - "27018:27018"
     volumes:
       - mongodata:/data/heron
-  bookingheron.com:
+  cleverbooking.prod:
     restart: always
-    container_name: bookingheron.com
+    container_name: cleverbooking.prod
     build:
       context: ./heron-interface
       args:
-        VITE_REACT_APP_BASE_URL: http://api.cleverbooking.prod
+        VITE_REACT_APP_BASE_URL: http://api-cleverbooking.tk
     ports:
       - "4025:4025"
     environment:
       - PORT=4025
-  test-api.bookingheron.com:
+  api-heronbooking.prod:
     restart: always
-    container_name: test-api.bookingheron.prod
+    container_name: api-heronbooking.prod
     build: ./heron-api
     ports:
       - "3015:3015"
     environment:
       - PORT=3015
       - MONGODB_URL=mongodb://db:27018/heron-dev
-  test.bookingheron.com:
+      - MOMO_IPN_URL=http://api-heronbooking.tk/api/payment/ipn
+      - MOMO_REDIRECT_URL=http://heronbooking.tk/payment/ipn
+      - EMAIL_SMTP_USERNAME=caothien029@gmail.com
+      - EMAIL_SMTP_PASSWORD=rwluxppwcrsuxlfy
+    volumes:
+      - uploads-testing:/app/heron-api/public/uploads
+  heronbooking.prod:
     restart: always
-    container_name: test.bookingheron.prod
+    container_name: heronbooking.prod
     build:
       context: ./heron-interface
       args:
-        VITE_REACT_APP_BASE_URL: http://test-api.cleverbooking.prod
+        VITE_REACT_APP_BASE_URL: http://api-heronbooking.tk
     ports:
       - "3025:3025"
     environment:
@@ -59,8 +67,8 @@ services:
     build: 
      context: .
      args:
-      REACT_APP_BASE_URL: http://api-cleverbooking.prod
-      REACT_APP_BASE_URL_TESING: http://test-api-cleverbooking.prod
+      REACT_APP_BASE_URL: http://api-cleverbooking.tk
+      REACT_APP_BASE_URL_TESING: http://api-heronbooking.tk
     ports:
       - 80:80
       - 9000:9000
@@ -68,9 +76,11 @@ services:
     environment:
       NODE_ENV: production
     depends_on:
-      - api.bookingheron.com
-      - bookingheron.com
-      - test-api.bookingheron.com
-      - test.bookingheron.com
+      - api-cleverbooking.prod
+      - cleverbooking.prod
+      - api-heronbooking.prod
+      - heronbooking.prod
 volumes:
   mongodata:
+  uploads-testing:
+  uploads:
