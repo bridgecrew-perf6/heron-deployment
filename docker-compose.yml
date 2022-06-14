@@ -16,7 +16,7 @@ services:
     depends_on:
       - db
     volumes:
-      - uploads:/app/heron-api/public/uploads
+      - uploads-production:/app/heron-api/public/uploads
   db:
     image: mongo
     container_name: mongodb
@@ -44,7 +44,7 @@ services:
       - "3015:3015"
     environment:
       - PORT=3015
-      - MONGODB_URL=mongodb://db:27018/heron-dev
+      - MONGODB_URL=mongodb://db:27018/heron-testing
       - MOMO_IPN_URL=http://api-heronbooking.tk/api/payment/ipn
       - MOMO_REDIRECT_URL=http://heronbooking.tk/payment/ipn
       - EMAIL_SMTP_USERNAME=caothien029@gmail.com
@@ -83,4 +83,4 @@ services:
 volumes:
   mongodata:
   uploads-testing:
-  uploads:
+  uploads-production:
