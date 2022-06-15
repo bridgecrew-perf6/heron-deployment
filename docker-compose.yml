@@ -62,16 +62,16 @@ services:
       - "3025:3025"
     environment:
       - PORT=3025
-  nginx-react:
-    container_name: ngixreactapp
+  nginx:
+    container_name: nginx
     build: 
      context: .
-     args:
-      REACT_APP_BASE_URL: http://api-cleverbooking.tk
-      REACT_APP_BASE_URL_TESING: http://api-heronbooking.tk
+    volumes:
+      - www:/srv/www
     ports:
       - 80:80
       - 9000:9000
+      - 9001:9001
       - 3001:3001
     environment:
       NODE_ENV: production
@@ -84,3 +84,4 @@ volumes:
   mongodata:
   uploads-testing:
   uploads-production:
+  www:
