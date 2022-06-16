@@ -62,6 +62,19 @@ services:
       - "3025:3025"
     environment:
       - PORT=3025
+  nft-heronbooking.prod:
+    restart: always
+    container_name: nft-heronbooking.prod
+    build:
+      context: ./heron-interface-nft
+      args:
+        VITE_REACT_APP_BASE_URL: http://api-heronbooking.tk
+        VITE_REACT_APP_NFT: true
+        VITE_REACT_APP_ADULT_PER_NFT: 2
+    ports:
+      - "3035:3035"
+    environment:
+      - PORT=3035
   nginx:
     container_name: nginx
     build: 
@@ -73,6 +86,7 @@ services:
       - 9000:9000
       - 9001:9001
       - 3001:3001
+      - 3002:3002
     environment:
       NODE_ENV: production
     depends_on:
@@ -80,6 +94,7 @@ services:
       - cleverbooking.prod
       - api-heronbooking.prod
       - heronbooking.prod
+      - nft-heronbooking.prod
 volumes:
   mongodata:
   uploads-testing:
